@@ -1,21 +1,15 @@
+import{http,port} from './src/serve'
+const sockets=require('socket.io')(http)
 
-import ffmpeg from 'ffmpeg'
 
-const path=require('path')
-const dir=path.join(__dirname,'video.mp4')
 
-try {
-	new ffmpeg(dir, function (err, video) {
-		if (!err) {
-			console.log('The video is ready to be processed');
-			return video
-		} else {
-			console.log('Error: ' + err);
-		}
-	});
-} catch (e) {
-	console.log(e.code);
-	console.log(e.msg);
-}
 
+
+http.listen(port,()=>console.log(`server at running in the port ${port}`))
+
+sockets.on('connection',socket=>{
+    socket.on('streaming',(image)=>{
+        socket.broadcast.emit('streaming',image)
+    })
+})
 
