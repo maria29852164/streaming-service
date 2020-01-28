@@ -23,6 +23,7 @@
     function loadCam(stream){
         
         var url = window.URL || window.webkitURL;
+      
     
         try {
            video.srcObject = stream;
